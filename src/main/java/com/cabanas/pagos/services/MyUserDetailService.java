@@ -29,6 +29,12 @@ public class MyUserDetailService implements UserDetailsService {
     		
     		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
             roles.add(new GrantedAuthority() {
+            	
+				/**
+				 * JVM issue
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public String getAuthority() {
 					return user.get().getRol();

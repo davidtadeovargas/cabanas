@@ -17,7 +17,7 @@ import com.cabanas.pagos.services.UserService;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class UserApiController {
 	
 	//Capa de servicio a usuarios
 	@Autowired

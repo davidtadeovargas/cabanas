@@ -19,13 +19,11 @@ public class UserService implements IUser {
     
     @Override
 	public List<User> getAll() {
-		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
 
 	@Override
 	public Optional<User> findById(int id) {
-		// TODO Auto-generated method stub
 		return userRepository.findById(id);
 	}
 	
@@ -35,21 +33,33 @@ public class UserService implements IUser {
 	}
 	
 	@Override
-	public User save(User product) {
-		// TODO Auto-generated method stub
+	public User save(User user) {
 		
-		final Optional<User> user_ = userRepository.findById(product.getId());
-		if(user_.isPresent()) {
-			product.setId(user_.get().getId());
-			product.setNombre(user_.get().getNombre());
+		final Optional<User> gasto_ = userRepository.findById(user.getId());
+		if(gasto_.isPresent()) {
+			return null;
+		} else {
+			userRepository.save(user);
+			return user;
 		}
-		
-		return userRepository.save(product);
 	}
-
+	
+	@Override
+	public User update(User user) {
+		
+		final Optional<User> user_ = userRepository.findById(user.getId());
+		if(user_.isPresent()) {
+			user.setId(user_.get().getId());
+			userRepository.save(user);
+			return user_.get();
+		} else {
+			return null;
+		}
+	}
+	
 	@Override
 	public void deleteById(int id) {
-		// TODO Auto-generated method stub
+		
 		final Optional<User> user = userRepository.findById(id);
 		if(user.isPresent()) {
 			userRepository.delete(user.get());

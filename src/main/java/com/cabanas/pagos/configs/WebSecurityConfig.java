@@ -18,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		/*http
 			.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
 				.anyRequest().authenticated()
@@ -28,11 +28,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
-				.permitAll();
+				.permitAll();*/
+		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+		//http.authorizeRequests().anyRequest().permitAll();
 	}
 
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailService);
+        //auth.userDetailsService(myUserDetailService);
     }
 }
