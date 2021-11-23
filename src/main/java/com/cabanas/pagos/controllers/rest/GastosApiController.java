@@ -1,22 +1,26 @@
 package com.cabanas.pagos.controllers.rest;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cabanas.pagos.models.Gasto;
 import com.cabanas.pagos.services.GastoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 @RequestMapping("/api/gasto")
 public class GastosApiController {
 
@@ -51,6 +55,8 @@ public class GastosApiController {
 	//Crea un gasto
 	@PostMapping("/save")
 	public boolean save(@Valid @RequestBody Gasto gasto) {
+		
+		gasto.setFechaCaptura(new Timestamp(System.currentTimeMillis())); //Al día de hoy
 		
 		//Crea el nuevo gasto
 		gastoService.save(gasto);

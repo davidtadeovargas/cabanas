@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.logout()
 				.permitAll();*/
-		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+		http.csrf().disable().authorizeRequests().anyRequest().permitAll(); //Para deshabilitar la seguridad de spring
 		//http.authorizeRequests().anyRequest().permitAll();
 	}
 

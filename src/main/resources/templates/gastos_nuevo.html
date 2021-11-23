@@ -26,15 +26,19 @@
         	</div>
 		  	<div class="form-group">
 		    	<label for="email">Concepto:</label>
-		    	<input type="email" class="form-control" id="concepto">
+		    	<input type="text" class="form-control" id="concepto">
 		  	</div>
 		  	<div class="form-group">
 		    	<label for="pwd">Proveedor:</label>
-		    	<input type="password" class="form-control" id="proveedor">
+		    	<input type="text" class="form-control" id="proveedor">
 		  	</div>
 		  	<div class="form-group">
 		    	<label for="pwd">Monto:</label>
 		    	<input type="number" class="form-control" id="monto" value="0.00">
+		  	</div>
+		  	<div class="form-group">
+		    	<label for="pwd">Fecha de gasto:</label>
+		    	<input type="datetime-local" class="form-control" id="fecha" value="">
 		  	</div><br>
 		 	<button type="submit" id="submit" class="btn btn-primary">Submit</button>
 		</form>
@@ -58,7 +62,65 @@
 				 	var proveedor = $("#proveedor").val();
 				 	var monto = $("#monto").val();
 				 	
+				 	var fecha = document.getElementById("fecha").value;
+				 	console.log("fecha: " + fecha);
 				 	
+				 	if(concepto==""){
+						alert("El concepto esta vacio");
+						$("#concepto").focus();
+						return;
+					}
+					if(proveedor==""){
+						alert("El proveedor esta vacio");
+						$("#proveedor").focus();
+						return;
+					}
+					if(monto<=0){
+						alert("El monto no es correcto");
+						$("#proveedor").focus();
+						return;
+					}
+					if(fecha==""){
+						alert("La fecha esta vacia");
+						$("#fecha").focus();
+						return;
+					}
+				 	
+				 	var r = confirm("Continuar?");
+					if (r == true) {
+					 	
+					 	console.log("tipo: " + tipo);
+					 	console.log("concepto: " + concepto);
+					 	console.log("proveedor: " + proveedor);
+					 	console.log("monto: " + monto);
+					 	console.log("fecha: " + fecha);
+					 	
+					 	$.ajax({
+						    type: "POST",
+						    url: "/api/gasto/save",
+						    data: JSON.stringify({
+						      tipo:tipo,
+						      concepto:concepto,
+						      proveedor:proveedor,
+						      monto:monto,
+						      fechaCaptura:"2020-04-08T07:30:10Z",
+						      fechaRegistro:fecha
+						    }),
+						    headers: {
+						      'Accept': 'application/json',
+						      'Content-Type': 'application/json'
+						    },
+						    success: function(data) {
+						      	if (data == true){
+									alert('Gasto registrado con exito');
+						        	window.location.href = "/gastos/index";
+								}
+						      	else {
+									alert('Servidor retorno FALSE');
+								}
+						    }
+						}); 
+					}
 				});
 		    });
 		    
