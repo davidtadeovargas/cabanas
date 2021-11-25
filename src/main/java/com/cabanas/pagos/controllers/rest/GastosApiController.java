@@ -76,7 +76,7 @@ public class GastosApiController {
 		
 		//Actualiza el gasto
 		gasto.setId(id);
-		gastoService.save(gasto);
+		gastoService.update(gasto);
 		
 		return true;
 	}

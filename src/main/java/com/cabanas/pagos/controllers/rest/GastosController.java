@@ -37,8 +37,13 @@ public class GastosController {
 	
 	//Pantalla para dar de alta un nuevo gasto
 	@GetMapping("/nueva")
-	public String getNew(){
-		return "gastos_nuevo";
+	public ModelAndView getNew(){
+		
+		final ModelAndView model = new ModelAndView("gastos_nuevo");
+		model.addObject("editable",true);
+	    model.addObject("title","Nuevo Gasto");
+	    
+		return model;
 	}
 	
 	//Pantalla para ver un gasto
@@ -57,13 +62,32 @@ public class GastosController {
 			
 		final ModelAndView model = new ModelAndView("gastos_nuevo");
 	    model.addObject("gasto",gasto);
+	    model.addObject("editable",false);
+	    model.addObject("title","Ver Gasto");
 	    
 		return model;
 	}
 	
 	//Pantalla para actualizar un gasto
-	@GetMapping("/actualizar")
-	public String getUpdate(){
-		return "gastos_nuevo";
+	@GetMapping("/actualizar/{id}")
+	public ModelAndView getUpdate(@PathVariable("id") int id){
+		
+		final Optional<Gasto> gasto_ = gastoService.findById(id);
+		
+		Gasto gasto;
+		
+		if(!gasto_.isPresent()) {
+			gasto = new Gasto();
+		} else {
+			gasto = gasto_.get();
+		}
+		
+		final ModelAndView model = new ModelAndView("gastos_nuevo");
+	    model.addObject("gasto",gasto);
+	    model.addObject("editable",true);
+	    model.addObject("title","Editar Gasto");
+	    model.addObject("actualizar",true);
+	    
+		return model;
 	}
 }

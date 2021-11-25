@@ -23,7 +23,7 @@ public class Gasto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private int tipo; //0 - ingreso 1 - egreso
+	private int tipo; //1 - ingreso 2 - egreso
 	private String concepto;
 	private String proveedor;
 	private double monto;
