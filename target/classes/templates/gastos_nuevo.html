@@ -19,36 +19,31 @@
         
         <form action="">
         	<div class="form-group">
-        		<input type="radio" id="ingreso" th:checked="${gasto} == null ? true : ${gasto.tipo} == 1" name="fav_language" value="HTML" th:disabled="${editable == false}">
+        		<input type="radio" id="ingreso" th:checked="${gasto.id} == -1 ? true : ${gasto.tipo} == 1" name="fav_language" value="HTML" th:disabled="${editable == false}">
 			  	<label for="html">Ingreso</label>
-			  	<input type="radio" id="css" th:checked="${gasto} == null ? false : ${gasto.tipo} == 2" name="fav_language" value="CSS" th:disabled="${editable == false}">
+			  	<input type="radio" id="css" th:checked="${gasto.id} == -1 ? false : ${gasto.tipo} == 2" name="fav_language" value="CSS" th:disabled="${editable == false}">
 			  	<label for="css">Egreso</label>
         	</div><br>
 		  	<div class="form-group">
 		    	<label for="email">Concepto:</label>
-		    	<input type="text" th:value="${gasto} != null ? ${gasto.concepto} : ''" class="form-control" id="concepto" th:disabled="${editable == false}">
+		    	<input type="text" th:value="${gasto.id} != -1 ? ${gasto.concepto} : ''" class="form-control" id="concepto" th:disabled="${editable == false}">
 		  	</div>
 		  	<div class="form-group">
 		    	<label for="pwd">Proveedor:</label>
-		    	<input type="text" th:value="${gasto} != null ? ${gasto.proveedor} : ''" class="form-control" id="proveedor" th:disabled="${editable == false}">
+		    	<input type="text" th:value="${gasto.id} != -1 ? ${gasto.proveedor} : ''" class="form-control" id="proveedor" th:disabled="${editable == false}">
 		  	</div>
 		  	<div class="form-group">
 		    	<label for="pwd">Monto:</label>
-		    	<input type="number" th:value="${gasto} != null ? ${gasto.monto} : ''" class="form-control" id="monto" value="0.00" th:disabled="${editable == false}">
+		    	<input type="number" th:value="${gasto.id} != -1 ? ${gasto.monto} : ''" class="form-control" id="monto" value="0.00" th:disabled="${editable == false}">
 		  	</div>
 		  	<div class="form-group">
 		    	<label for="pwd">Fecha de gasto:</label>
-		    	<input type="datetime-local" class="form-control" id="fecha" th:value="${gasto} != null ? ${#strings.replace(gasto.fechaRegistro,' ','T')} : ''" th:disabled="${editable == false}">
+		    	<input type="datetime-local" class="form-control" id="fecha" th:value="${gasto.id} != -1 ? ${#strings.replace(gasto.fechaRegistro,' ','T')} : ''" th:disabled="${editable == false}">
 		  	</div><br>
 		 	<button type="submit" id="submit" class="btn btn-primary" th:disabled="${editable == false}" th:hidden="${editable == false}">Submit</button>
 		</form>
 		
 		<script>
-			
-			var actualizar = "[[${actualizar}]]";
-			var id = "[[${gasto.id}]]";
-			
-			console.log("actualizar: " + actualizar);
 			
 		    $( document ).ready(function() {
 		        console.log( "document loaded" );
@@ -100,9 +95,17 @@
 					 	console.log("monto: " + monto);
 					 	console.log("fecha: " + fecha);
 					 	
+					 	var actualizar = "[[${actualizar}]]";
+						var id = "[[${gasto.id}]]";
+						
+						console.log("actualizar: " + actualizar);
+						
 					 	var url = "/api/gasto/save";
-					 	if(actualizar){
+					 	if(actualizar==true){
+							console.log("Actualizar es true");
 							url = "/api/gasto/update/" + id;	
+						} else {
+							console.log("Actualizar es false");
 						}
 						
 						console.log("url: " + url);

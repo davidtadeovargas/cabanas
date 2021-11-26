@@ -38,10 +38,15 @@ public class GastosController {
 	//Pantalla para dar de alta un nuevo gasto
 	@GetMapping("/nueva")
 	public ModelAndView getNew(){
+	
+		final Gasto gasto = new Gasto();
+		gasto.setId(-1);
 		
 		final ModelAndView model = new ModelAndView("gastos_nuevo");
 		model.addObject("editable",true);
 	    model.addObject("title","Nuevo Gasto");
+	    model.addObject("actualizar",false);
+	    model.addObject("gasto",gasto);
 	    
 		return model;
 	}
@@ -89,5 +94,11 @@ public class GastosController {
 	    model.addObject("actualizar",true);
 	    
 		return model;
+	}
+	
+	//Pantalla principal de gastos
+	@GetMapping("/reportes")
+	public String getReportes(){
+		return "reportes";
 	}
 }

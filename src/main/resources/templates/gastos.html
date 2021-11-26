@@ -15,7 +15,10 @@
     </head>
     <body style="padding:1cm">
         <h1>Gastos:</h1><br>
-        <button type="button" class="btn btn-primary" id="nuevo">Nuevo</button><br><br>
+        <div class="row">
+        	<button type="button" class="btn btn-primary col-sm-2" id="nuevo">Nuevo</button>
+        	<button type="button" class="btn btn-secondary col-sm-2" id="reporte">Reporte</button>
+        </div ><br><br>
          
         <div class="list-group">
         	<tr th:each="gasto : ${gastos}">
@@ -49,6 +52,10 @@
 		        
 		        $("#nuevo").click(function(event) {
 					window.location.href = "/gastos/nueva";
+				});
+				
+				$("#reporte").click(function(event) {
+					window.location.href = "/gastos/reportes";
 				});
 		    });
 		    
