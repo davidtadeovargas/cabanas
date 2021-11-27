@@ -59,4 +59,10 @@ public class GastoService implements IGasto {
 			gastoRepository.delete(gasto.get());
 		}
 	}
+	
+	@Override
+	public List<Gasto> getAllByFilterPDF(int tipo, String concepto, String proveedor, String monto,
+			String fechaGasto) {
+		return gastoRepository.getAllByFilterPDF(tipo, concepto, proveedor, monto, fechaGasto);
+	}
 }

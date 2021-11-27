@@ -18,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		/*http
+		http
 			.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
 				.anyRequest().authenticated()
@@ -26,15 +26,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login")
 				.permitAll()
-				.and()
+				.and().csrf().disable().cors().and()
 			.logout()
-				.permitAll();*/
-		http.csrf().disable().authorizeRequests().anyRequest().permitAll(); //Para deshabilitar la seguridad de spring
-		//http.authorizeRequests().anyRequest().permitAll();
+				.permitAll();
+		
+		//http.csrf().disable().authorizeRequests().anyRequest().permitAll(); //Para deshabilitar la seguridad de spring
 	}
 
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(myUserDetailService);
+        auth.userDetailsService(myUserDetailService);
     }
 }

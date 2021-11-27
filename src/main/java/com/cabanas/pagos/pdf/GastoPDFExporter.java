@@ -57,13 +57,18 @@ public class GastoPDFExporter {
     }
 	
 	private void writeTableData(PdfPTable table) {
+		
+		Font font = FontFactory.getFont(FontFactory.HELVETICA);
+        font.setSize(8);
+        font.setColor(Color.BLACK);
+        
         for (Gasto gasto : gastos) {
-        	table.addCell(gasto.getTipo()==1?"Ingreso":"Egreso");
-            table.addCell(gasto.getConcepto());
-            table.addCell(gasto.getProveedor());
-            table.addCell(String.valueOf(gasto.getMonto()));
-            table.addCell(gasto.getFechaCaptura().toString());
-            table.addCell(gasto.getFechaRegistro().toString());
+        	table.addCell(new PdfPCell(new Phrase(gasto.getTipo()==1?"Ingreso":"Egreso",font)));
+        	table.addCell(new PdfPCell(new Phrase(gasto.getConcepto(),font)));
+        	table.addCell(new PdfPCell(new Phrase(gasto.getProveedor(),font)));
+        	table.addCell(new PdfPCell(new Phrase("$" + String.valueOf(gasto.getMonto()),font)));
+        	table.addCell(new PdfPCell(new Phrase(gasto.getFechaCaptura().toString(),font)));
+        	table.addCell(new PdfPCell(new Phrase(gasto.getFechaRegistro().toString(),font)));
         }
     }
     
@@ -82,11 +87,10 @@ public class GastoPDFExporter {
          
         document.add(p);
          
-         float[] colWidths = {2,2,2,2};
-        PdfPTable table = new PdfPTable(colWidths);
-        //table.setWidths(new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
+        PdfPTable table = new PdfPTable(6);
+        table.setWidths(new float[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f});
         table.setWidthPercentage(100f);
-        table.setSpacingBefore(10);
+        table.setSpacingBefore(20);
          
         writeTableHeader(table);
         writeTableData(table);

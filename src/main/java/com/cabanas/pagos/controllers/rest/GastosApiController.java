@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cabanas.pagos.models.Gasto;
 import com.cabanas.pagos.pdf.GastoPDFExporter;
-import com.cabanas.pagos.pdf.GastosPDFReportFilter;
 import com.cabanas.pagos.services.GastoService;
 import com.lowagie.text.DocumentException;
 
@@ -93,9 +92,22 @@ public class GastosApiController {
     						@PathVariable("tipo") int tipo,
     						@PathVariable("concepto") String concepto,
     						@PathVariable("proveedor") String proveedor,
-    						@PathVariable("monto") double monto,
+    						@PathVariable("monto") String monto,
     						@PathVariable("fechaGasto") String fechaGasto) throws DocumentException, IOException {
         
+		if(concepto.compareTo("N-")==0) {
+			concepto = "%";
+		}
+		if(proveedor.compareTo("N-")==0) {
+			proveedor = "%";
+		}
+		if(monto.compareTo("N-")==0) {
+			monto = "%";
+		}
+		if(fechaGasto.compareTo("N-")==0) {
+			fechaGasto = "%";
+		}
+		
 		response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -104,7 +116,7 @@ public class GastosApiController {
         String headerValue = "attachment; filename=gastos_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
          
-        final List<Gasto> gastos = gastoService.getAll();
+        final List<Gasto> gastos = gastoService.getAllByFilterPDF(tipo, concepto, proveedor, monto, fechaGasto);
          
         GastoPDFExporter exporter = new GastoPDFExporter(gastos);
         exporter.export(response);
