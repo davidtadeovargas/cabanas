@@ -53,7 +53,7 @@ public class UserApiController {
 		
 		//Si el usuario ya existe no permitas avanzar
 		Optional<User> user_ = userService.findByUsername(user.getUsername());
-		if(user_!=null) {
+		if(user_.isPresent()) {
 			return false;
 		}
 		

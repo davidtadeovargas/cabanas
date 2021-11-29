@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,26 +15,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cabanas.pagos.models.Gasto;
+import com.cabanas.pagos.models.User;
 import com.cabanas.pagos.services.GastoService;
+import com.cabanas.pagos.services.UserService;
 
 @Controller
 @RequestMapping("/gastos")
 public class GastosController {
 
-	//Capa de servicio a usuarios
+	//Capa de servicio a gastos
 	@Autowired
 	private GastoService gastoService;
 	
+	//Capa de servicio a usuarios
+	@Autowired
+	private UserService userService;
 		
+	
+	
 	//Pantalla principal de gastos
 	@GetMapping("/index")
 	public ModelAndView getIndex(){
 		
 		//Obtiene todos los gastos
 		final List<Gasto> gastos = gastoService.getAll();
-		
+				
+		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username;
+		if (principal instanceof UserDetails) {
+		  username = ((UserDetails)principal).getUsername();
+		} else {
+		  username = principal.toString();
+		}
+	
+		//Obtiene el rol
+		final Optional<User> user_ = userService.findByUsername(username);
+		final User user = user_.get();
+						
 		final ModelAndView model = new ModelAndView("gastos");
 	    model.addObject("gastos",gastos);
+	    model.addObject("user",user);
 	    
 		return model;
 	}
